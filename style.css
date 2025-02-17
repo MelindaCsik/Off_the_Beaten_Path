@@ -6,14 +6,14 @@ nav {
     background-color: #4dffc3;
 }
 
-.post {
+.posts {
     margin: 0px 20px 0px 20px;
 }
 
-.card {
+.post {
     margin: 15px;
     padding: 10px;
-    width: 20rem;
+    width: 22rem;
 }
 
 .card img {
@@ -23,3 +23,6 @@ nav {
 .btn {
     background-color: #4dffc3;
 }
+
+
+
