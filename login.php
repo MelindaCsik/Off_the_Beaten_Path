@@ -1,22 +1,24 @@
 <?php
-include "head.php";
+include "./common/head.inc.php";
 ?>
 
-<div class="container mt-5">
-        <h2 class="mb-4">Bejeletkezés</h2>
+<div class="container d-flex justify-content-center align-items-center vh-100 regLogDiv">
+    <div class="p-4 rounded shadow bg-white form-container">
+        <h2 class="text-center mb-4">Bejelentkezés</h2>
         <form>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="username" placeholder="Felhasználónév">
-            <label for="username">Felhasználónév</label>
-        </div>
-        <div class="form-floating">
-            <input type="password" class="form-control" id="password" placeholder="Jelszó">
-            <label for="password">Jelszó</label>
-        </div>
-            <button type="submit" class="btn">Bejeletkezés</button>
+            <div class="form-floating mb-3 input-width">
+                <input type="text" class="form-control" id="username" placeholder="Felhasználónév">
+                <label for="username">Felhasználónév</label>
+            </div>
+            <div class="form-floating mb-3 input-width">
+                <input type="password" class="form-control" id="password" placeholder="Jelszó">
+                <label for="password">Jelszó</label>
+            </div>
+            <button type="submit" class="btn w-100">Bejelentkezés</button>
         </form>
+    </div>
 </div>
 
 <?php
-include "foot.php";
+include "./common/foot.inc.php";
 ?>
