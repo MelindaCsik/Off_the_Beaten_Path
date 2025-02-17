@@ -13,7 +13,7 @@ include "head.php";
             <input type="password" class="form-control" id="password" placeholder="Jelszó">
             <label for="password">Jelszó</label>
         </div>
-            <button type="submit" class="btn">Regisztráció</button>
+            <button type="submit" class="btn">Bejeletkezés</button>
         </form>
 </div>
 
