@@ -13,11 +13,13 @@ nav {
 .post {
     margin: 15px;
     padding: 10px;
-    width: 22rem;
+    width: 350px;
+    height: 500px;
 }
 
-.registrationDiv {
+.regLogDiv {
     width: 500px !important;
+    
 }
 
 .card img {
