@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `c8m6k_poi` (
 	`coordinate_id` int NOT NULL,
 	`landmark_id` int NOT NULL,
 	`category_id` int NOT NULL,
-	`user_id` int NOT NOT,
+	`user_id` int NOT NULL,
 	PRIMARY KEY (`poi_id`)
 );
 
