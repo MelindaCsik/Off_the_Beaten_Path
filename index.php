@@ -17,7 +17,7 @@ include "./common/head.inc.php";
 
 <div class="container">
 <div class="row posts">
-    <div class="card col-xl-3 post">
+    <div class="card col-lg-3 post">
         <img src="img/park.jpg" class="card-img-top " alt="">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
@@ -26,7 +26,7 @@ include "./common/head.inc.php";
         </div>
     </div>
 
-    <div class="card col-xl-3 post">
+    <div class="card col-lg-3 post">
         <img src="img/house.jpg" class="card-img-top " alt="">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
@@ -35,7 +35,7 @@ include "./common/head.inc.php";
         </div>
     </div>
 
-    <div class="card col-xl-3 post">
+    <div class="card col-lg-3 post">
         <img src="img/statue.jpg" class="card-img-top " alt="">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
@@ -44,7 +44,7 @@ include "./common/head.inc.php";
         </div>
     </div>
 
-    <div class="card col-xl-3 post">
+    <div class="card col-lg-3 post">
         <img src="img/park.jpg" class="card-img-top " alt="">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
@@ -53,7 +53,7 @@ include "./common/head.inc.php";
         </div>
     </div>
 
-    <div class="card col-xl-3 post">
+    <div class="card col-lg-3 post">
         <img src="img/park.jpg" class="card-img-top " alt="">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>

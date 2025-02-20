@@ -19,8 +19,7 @@ nav {
 }
 
 .regLogDiv {
-    width: 500px !important;
-    
+    width: 500px;
 }
 
 .card img {
@@ -34,8 +33,7 @@ nav {
 
 .btn:hover {
     background-color: white;
-    border: 1px;
-    border-color: #4dffc3;
+    border: 2px solid #4dffc3;
 }
 
 .form-container {
@@ -52,4 +50,17 @@ nav {
 
 .search {
     margin-left: 250px;
+}
+
+.gallery {
+    margin-bottom: 25px;
+}
+
+.carousel-item img {
+    width: 30%;
+    margin: 0 10px;
+}
+.carousel-control-prev, .carousel-control-next {
+    width: 5%;
+    background-color: #777777;
 }
