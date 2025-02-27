@@ -8,6 +8,7 @@
   	<link rel="icon" type="image/png" sizes="32x32" href="./img/favicon/favicon-32x32.png"/>
   	<link rel="icon" type="image/png" sizes="16x16" href="./img/favicon/favicon-16x16.png"/>
   	<link rel="mask-icon" href="assets/favicon/safari-pinned-tab.svg" color="#394554"/>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 	<link rel="stylesheet" href="./css/style.css">
 	<title>Off the Beaten Path</title>
 </head>
