@@ -29,7 +29,7 @@ function handlePost($conn, $input)
     $email = $input['email'];
     $password = password_hash($input['password'], PASSWORD_BCRYPT);
 
-    $sql = "SELECT * FROM " . DB_PREFIX . "_users WHERE username = ? OR email = ?";
+    $sql = "SELECT * FROM " . DB_PREFIX . "_users WHERE user_name = ? OR user_email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
@@ -39,7 +39,7 @@ function handlePost($conn, $input)
         header('HTTP/1.1 409 Conflict');
         echo json_encode(['message' => 'A felhasználónév vagy az e-mail cím már foglalt.']);
     } else {
-        $sql = "INSERT INTO " . DB_PREFIX . "_users (username, email, password) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO " . DB_PREFIX . "_users (user_name, user_email, user_password) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $username, $email, $password);
 
