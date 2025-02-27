@@ -8,8 +8,8 @@ $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
 
 switch ($method) {
-    case 'POST':
-        handleLogin($conn, $input);
+    case 'GET':
+        handleLogin($conn);
         break;
     default:
         header('HTTP/1.1 400 Bad Request');
