@@ -17,51 +17,52 @@ switch ($method) {
         break;
 }
 
-function handleLogin($conn, $input)
-{
+function handleLogin($conn, $input) {
     if ((!isset($input['username']) && !isset($input['email'])) || !isset($input['password'])) {
-        header('HTTP/1.1 400 Bad Request');
-        echo json_encode(['message' => 'Hiányzó mezők!']);
+        http_response_code(400);
+        echo json_encode(["error" => "Missing required fields"]);
         return;
     }
-    
-if (isset($input['username'])) {
-    $username = $input['username'];
 
-    $sql = "SELECT user_id, user_password password FROM " .DB_PREFIX. "_users WHERE user_name = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
+    $password = $input['password'];
+    $stmt = null;
+
+    if (isset($input['username'])) {
+        $username = trim($input['username']);
+        $sql = "SELECT user_id, user_password, user_name, user_email, user_admin FROM " . DB_PREFIX . "_users WHERE user_name = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $username);
+    } else {
+        $email = trim($input['email']);
+        $sql = "SELECT user_id, user_password, user_name, user_email, user_admin FROM " . DB_PREFIX . "_users WHERE user_email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+    }
+
+    if (!$stmt->execute()) {
+        http_response_code(500);
+        echo json_encode(["error" => "Database error"]);
+        return;
+    }
+
     $result = $stmt->get_result();
-} else {
-    $email = $input['email'];
-
-    $sql = "SELECT user_id, user_password password FROM " .DB_PREFIX. "_users WHERE user_email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-}
-$password = $input['password'];
-    
-
-  
-
     if ($result->num_rows === 0) {
-        header('HTTP/1.1 401 Unauthorized');
-        echo json_encode(['message' => 'Hibás felhasználónév vagy jelszó!']);
-        //echo json_encode(['message' => 'Hibás felhasználónév vagy jelszó!', 'passwordHash' => $password, 'password' => $input['password'], 'sql' => $sql, 'email' => $email ]);
+        http_response_code(401);
+        echo json_encode(["error" => "Invalid username or password"]);
         return;
     }
 
     $user = $result->fetch_assoc();
 
-    if (password_verify($password, $user['password'])) {
-        echo json_encode(['message' => 'Sikeres bejelentkezés!', 'user_id' => $user['user_id']]);
-    } else {
-        header('HTTP/1.1 401 Unauthorized');
-        echo json_encode(['message' => 'Hibás felhasználónév vagy jelszó!']);
-        //echo json_encode(['message' => 'Hibás felhasználónév vagy jelszó!', 'passwordHash' => $password, 'password' => $input['password'], 'sql' => $sql, 'email' => $email, 'user' => $user]);
+    if (!password_verify($password, $user['user_password'])) {
+        http_response_code(401);
+        echo json_encode(["error" => "Invalid username or password"]);
+        return;
     }
+
+    unset($user['user_password']);
+    $user['token'] = bin2hex(random_bytes(32)); // Generate secure session token
+
+    echo json_encode(["message" => "Login successful", "user" => $user]);
 }
 ?>
