@@ -26,16 +26,13 @@
 				<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link active" href="#">Kezdőlap</a>
+							<a class="nav-link active" href="../index.php">Kezdőlap</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Rólunk</a>
+							<a class="nav-link" href="../upload.php">Új poszt</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Új poszt</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="">Profil</a>
+							<a class="nav-link" href="../profile.php">Profil</a>
 						</li>
 					</ul>
 				</div>
