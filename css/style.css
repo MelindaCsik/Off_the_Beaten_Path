@@ -83,3 +83,13 @@ nav {
 #description {
     height: 300px;
 }
+
+.userData {
+    border: 1px solid #4dffc3;
+}
+
+.line{
+    border-bottom: 1px solid black;
+    width: 80%;
+    margin: 20px auto;
+}
