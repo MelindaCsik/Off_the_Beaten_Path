@@ -85,11 +85,17 @@ nav {
 }
 
 .userData {
-    border: 1px solid #4dffc3;
+    border: 2px solid #4dffc3;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.dataField{
+    border: 1px solid #666666;
 }
 
 .line{
     border-bottom: 1px solid black;
-    width: 80%;
+    width: 90%;
     margin: 20px auto;
 }
