@@ -18,26 +18,18 @@ include "./common/head.inc.php";
                       <p>
 
                 <div class="container mt-5">
-                    <div id="imageCarousel" class="carousel slide gallery" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="d-flex justify-content-center">
-                                    <img src="./img/house.jpg" class="img-fluid" alt="Kép 1">
-                                    <img src="./img/park.jpg" class="img-fluid" alt="Kép 2">
-                                    <img src="./img/statue.jpg" class="img-fluid" alt="Kép 3">
-                                </div>
-                            </div>
-                        </div>
+                <div class="carousel">
+        <button class="btn" onclick="prevSlide()">‹</button>
+        <div id="imageContainer"></div>
+        <button class="btn" onclick="nextSlide()">›</button>
+    </div>
 
-                        <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Előző</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Következő</span>
-                        </button>
-                    </div>
+    <div class="fullscreen" id="fullscreen">
+        <button class="close-btn" onclick="closeFullScreen()">✖</button>
+        <button class="nav-btn prev" onclick="prevFullScreen()">‹</button>
+        <img id="fullscreenImage" src="">
+        <button class="nav-btn next" onclick="nextFullScreen()">›</button>
+    </div>
                 </div>
         </div>
     </div>
@@ -65,6 +57,62 @@ include "./common/head.inc.php";
         L.marker([coordinates.lat, coordinates.lng]).addTo(map)
             .bindPopup("Kijelölt pont")
             .openPopup();
+
+
+            const images = [
+            './img/house.jpg',
+            './img/park.jpg',
+            './img/statue.jpg'
+        ];
+        
+        let currentIndex = 0;
+        let fullscreenIndex = 0;
+        const imageContainer = document.getElementById("imageContainer");
+        const fullscreen = document.getElementById("fullscreen");
+        const fullscreenImage = document.getElementById("fullscreenImage");
+
+        function renderImages() {
+            imageContainer.innerHTML = "";
+            for (let i = 0; i < 3; i++) {
+                let imgIndex = (currentIndex + i) % images.length;
+                const img = document.createElement("img");
+                img.src = images[imgIndex];
+                img.onclick = () => openFullScreen(imgIndex);
+                imageContainer.appendChild(img);
+            }
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            renderImages();
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % images.length;
+            renderImages();
+        }
+
+        function openFullScreen(index) {
+            fullscreenIndex = index;
+            fullscreenImage.src = images[fullscreenIndex];
+            fullscreen.style.display = "flex";
+        }
+
+        function closeFullScreen() {
+            fullscreen.style.display = "none";
+        }
+
+        function prevFullScreen() {
+            fullscreenIndex = (fullscreenIndex - 1 + images.length) % images.length;
+            fullscreenImage.src = images[fullscreenIndex];
+        }
+
+        function nextFullScreen() {
+            fullscreenIndex = (fullscreenIndex + 1) % images.length;
+            fullscreenImage.src = images[fullscreenIndex];
+        }
+
+        renderImages();
     </script>
 </script>
 
