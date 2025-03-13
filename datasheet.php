@@ -17,7 +17,7 @@ include "./common/head.inc.php";
                       neque, quis suscipit velit. Proin ornare tellus nec augue eleifend, eget tristique ipsum volutpat. Proin vitae arcu lacus.</p>
                       <p>
 
-                <div class="container mt-5">
+                /*<div class="container mt-5">
                 <div class="carousel">
         <button class="btn" onclick="prevSlide()">‹</button>
         <div id="imageContainer"></div>
@@ -32,7 +32,7 @@ include "./common/head.inc.php";
     </div>
                 </div>
         </div>
-    </div>
+    </div>*/
     <div class="col-lg-6">
         <div class="p-5">
         <div class="justify-content-end"> 
