@@ -29,10 +29,10 @@
 							<a class="nav-link active" href="/Off_the_Beaten_Path/index.php">Kezdőlap</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/Off_the_Beaten_Path/upload.php">Új poszt</a>
+							<a class="nav-link" href="../upload.php">Új poszt</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/Off_the_Beaten_Path/profile.php">Profil</a>
+							<a class="nav-link" href="../login.php">Profil</a>
 						</li>
 					</ul>
 				</div>
