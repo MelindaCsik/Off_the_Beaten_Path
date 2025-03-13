@@ -1,5 +1,6 @@
 <?php
 include "./common/head.inc.php";
+require "./api/registration.api.php";
 ?>
 
 <div class="container d-flex justify-content-center align-items-center vh-100 regLogDiv">
