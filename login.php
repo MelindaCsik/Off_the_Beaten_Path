@@ -1,5 +1,6 @@
 <?php
 include "./common/head.inc.php";
+require "./api/login.api.php";
 ?>
 
 <div class="container d-flex justify-content-center align-items-center vh-100 regLogDiv">
@@ -15,6 +16,9 @@ include "./common/head.inc.php";
                 <label for="password">Jelszó</label>
             </div>
             <button type="submit" class="btn w-100">Bejelentkezés</button>
+            <div class="form-floating mb-3 input-width">
+                <p><a href="/2024/off-the-beaten-path/registration.php">Regisztrálj!<a></p>
+            </div>
         </form>
     </div>
 </div>
