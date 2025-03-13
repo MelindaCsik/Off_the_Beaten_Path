@@ -17,16 +17,16 @@ include "./common/head.inc.php";
 
 <div class="container">
 <div class="row posts">
-    <div class="card col-lg-3 post">
+    <div class="card col-lg-2 post">
         <img src="img/park.jpg" class="card-img-top " alt="">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content...</p>
-            <a href="/Off_the_Beaten_Path/datasheet.php" class="btn">Go somewhere</a>
+            <a href="/2024/off-the-beaten-path/datasheet.php" class="btn">Go somewhere</a>
         </div>
     </div>
 
-    <div class="card col-lg-3 post">
+    <div class="card col-lg-2 post">
         <img src="img/house.jpg" class="card-img-top " alt="">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
@@ -35,7 +35,7 @@ include "./common/head.inc.php";
         </div>
     </div>
 
-    <div class="card col-lg-3 post">
+    <div class="card col-lg-2 post">
         <img src="img/statue.jpg" class="card-img-top " alt="">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
@@ -44,7 +44,7 @@ include "./common/head.inc.php";
         </div>
     </div>
 
-    <div class="card col-lg-3 post">
+    <div class="card col-lg-2 post">
         <img src="img/park.jpg" class="card-img-top " alt="">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>

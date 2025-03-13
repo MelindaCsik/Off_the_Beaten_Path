@@ -1,7 +1,6 @@
 <?php
 
 header("Content-Type: application/json");
-
 include('../common/db.inc.php');
 
 $method = $_SERVER['REQUEST_METHOD'];

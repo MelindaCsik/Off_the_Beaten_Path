@@ -22,17 +22,17 @@
 				<a class="navbar-brand" href="#">
 					<img src="./img/Logo.png" alt="Off the Beaten Path" class="rounded-circle"  width="50" height="50">
 				</a>
-		
+	
 				<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link active" href="/Off_the_Beaten_Path/index.php">Kezdőlap</a>
+							<a class="nav-link" href="/2024/off-the-beaten-path/index.php">Kezdőlap</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="../upload.php">Új poszt</a>
+							<a class="nav-link" href="/2024/off-the-beaten-path/upload.php">Új poszt</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="../login.php">Profil</a>
+							<a class="nav-link" href="/2024/off-the-beaten-path/registration.php">Profil</a>
 						</li>
 					</ul>
 				</div>
