@@ -5,14 +5,34 @@ include "./common/head.inc.php";
 
 <div class="container">
     <h1>Profil adatok</h1>
+
     <div class="userData">
-        <p>Felhasználónév</p>
-        <p class="dataField">XY</p>
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label for="usernameOutput" class="col-form-label">Felhasználónév:</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="usernameOutput" class="form-control" value="XY" disabled readonly>
+        </div>
+        <div class="col-auto">
+            <label for="emailOutput" class="col-form-label">Email cím:</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="emailOutput" class="form-control" value="xy@emil.com" disabled readonly>
+        </div>
+    </div>
 
-        <p>Email cím</p>
-        <p class="dataField">xy@email.com</p>
-
-        <button type="submit" class="btn w-100 gomb">Módosítás</button>
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label for="passwordOutput" class="col-form-label">Jelszó:</label>
+        </div>
+        <div class="col-auto">
+            <input type="password" id="passwordOutput" class="form-control" value="jelszó" disabled readonly>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn">Módosítás</button>
+        </div>
+    </div>
     </div>
 
     <h2>Saját bejegyzések</h2>
