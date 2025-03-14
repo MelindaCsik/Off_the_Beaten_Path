@@ -87,7 +87,7 @@ nav {
 .userData {
     border: 2px solid #4dffc3;
     border-radius: 5px;
-    padding: 5px;
+    padding: 25px;
 }
 
 .dataField{
@@ -96,6 +96,10 @@ nav {
 
 .line{
     border-bottom: 1px solid black;
-    width: 90%;
+    width: 95%;
     margin: 20px auto;
+}
+
+.usernameOutput, .emailOutput{
+    margin-bottom: 15px;
 }

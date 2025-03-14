@@ -19,7 +19,7 @@ require "./api/registration.api.php";
                 <input type="password" class="form-control" id="password" placeholder="Jelszó">
                 <label for="password">Jelszó</label>
             </div>
-            <button type="submit" class="btn w-100 gomb">Regisztráció</button>
+            <button type="button" class="btn w-100 gomb">Regisztráció</button>
         </form>
     </div>
 </div>
