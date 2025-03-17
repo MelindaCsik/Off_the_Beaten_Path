@@ -7,108 +7,211 @@ $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!$conn) {
-    http_response_code(500);
-    echo json_encode(["error" => "Database connection failed"]);
+    sendResponse(500, false, "Database connection failed");
     exit;
 }
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['id'])) {
-            // Fetch a single POI by ID
-            $id = intval($_GET['id']);
-            $query = "SELECT * FROM points_of_interest WHERE poi_id = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $poi = $result->fetch_assoc();
-
-            echo json_encode($poi ?: ["error" => "POI not found"]);
-        } else {
-            // Fetch all POIs
-            $query = "SELECT * FROM points_of_interest";
-            $result = $conn->query($query);
-            $pois = $result->fetch_all(MYSQLI_ASSOC);
-
-            echo json_encode($pois);
-        }
+        handleGetPOI($conn);
         break;
-
     case 'POST':
-        // Add a new POI
-        if (!empty($input['poi_name']) && !empty($input['poi_description']) && !empty($input['coordinate_id']) && !empty($input['landmark_id']) && !empty($input['category_id']) && !empty($input['user_id'])) {
-            $poi_name = $input['poi_name'];
-            $poi_description = $input['poi_description'];
-            $coordinate_id = $input['coordinate_id'];
-            $landmark_id = $input['landmark_id'];
-            $category_id = $input['category_id'];
-            $user_id = $input['user_id'];
-
-            $query = "INSERT INTO points_of_interest (poi_name, poi_description, coordinate_id, landmark_id, category_id, user_id) 
-                      VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("ssiiii", $poi_name, $poi_description, $coordinate_id, $landmark_id, $category_id, $user_id);
-            $stmt->execute();
-
-            echo json_encode(["message" => "POI added successfully", "poi_id" => $stmt->insert_id]);
-        } else {
-            http_response_code(400);
-            echo json_encode(["error" => "Invalid input"]);
-        }
+        handleAddPOI($conn, $input);
         break;
-
     case 'PUT':
-        // Update an existing POI
-        if (!empty($input['poi_id']) && (!empty($input['poi_name']) || !empty($input['poi_description']) || !empty($input['coordinate_id']) || !empty($input['landmark_id']) || !empty($input['category_id']) || !empty($input['user_id']))) {
-            $poi_id = intval($input['poi_id']);
-            $poi_name = $input['poi_name'] ?? null;
-            $poi_description = $input['poi_description'] ?? null;
-            $coordinate_id = $input['coordinate_id'] ?? null;
-            $landmark_id = $input['landmark_id'] ?? null;
-            $category_id = $input['category_id'] ?? null;
-            $user_id = $input['user_id'] ?? null;
-
-            $query = "UPDATE points_of_interest SET 
-                        poi_name = COALESCE(?, poi_name), 
-                        poi_description = COALESCE(?, poi_description), 
-                        coordinate_id = COALESCE(?, coordinate_id), 
-                        landmark_id = COALESCE(?, landmark_id), 
-                        category_id = COALESCE(?, category_id), 
-                        user_id = COALESCE(?, user_id)
-                      WHERE poi_id = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("ssiiiiii", $poi_name, $poi_description, $coordinate_id, $landmark_id, $category_id, $user_id, $poi_id);
-            $stmt->execute();
-
-            echo json_encode(["message" => "POI updated successfully"]);
-        } else {
-            http_response_code(400);
-            echo json_encode(["error" => "Invalid input"]);
-        }
+        handleUpdatePOI($conn, $input);
         break;
-
     case 'DELETE':
-        // Delete a POI by ID
-        if (isset($_GET['id'])) {
-            $poi_id = intval($_GET['id']);
-            $query = "DELETE FROM points_of_interest WHERE poi_id = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("i", $poi_id);
-            $stmt->execute();
-
-            echo json_encode(["message" => "POI deleted successfully"]);
-        } else {
-            http_response_code(400);
-            echo json_encode(["error" => "ID is required"]);
-        }
+        handleDeletePOI($conn);
         break;
-
     default:
-        http_response_code(405);
-        echo json_encode(["error" => "Method Not Allowed"]);
+        sendResponse(405, false, "Method Not Allowed");
 }
 
 $conn->close();
+
+
+function handleGetPOI($conn) {
+    if (isset($_GET['id'])) {
+        $id = intval($_GET['id']);
+        $query = "SELECT * FROM " . DB_PREFIX . "_poi WHERE poi_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $poi = $result->fetch_assoc();
+
+        sendResponse(200, true, $poi ?: ["error" => "POI not found"]);
+    } else {
+        $query = "SELECT * FROM " . DB_PREFIX . "_poi";
+        $result = $conn->query($query);
+        $pois = $result->fetch_all(MYSQLI_ASSOC);
+
+        sendResponse(200, true, $pois);
+    }
+}
+
+
+function handleAddPOI($conn, $input) {
+    if (empty($input['poi_name']) || empty($input['poi_description']) || empty($input['latitude']) || empty($input['longitude']) || empty($input['landmark_id']) || empty($input['category_id']) || empty($input['user_id'])) {
+        sendResponse(400, false, "Invalid input: All fields are required.");
+        return;
+    }
+
+    $poi_name = $input['poi_name'];
+    $poi_description = $input['poi_description'];
+    $latitude = $input['latitude'];
+    $longitude = $input['longitude'];
+    $landmark_id = $input['landmark_id'];
+    $category_id = $input['category_id'];
+    $user_id = $input['user_id'];
+
+    $coordinate_id = insertCoordinate($conn, $latitude, $longitude);
+    if (!$coordinate_id) {
+        sendResponse(500, false, "Failed to create coordinate.");
+        return;
+    }
+
+    $query = "INSERT INTO " . DB_PREFIX . "_poi (poi_name, poi_discription, coordinate_id, landmark_id, category_id, user_id) 
+              VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ssiiii", $poi_name, $poi_description, $coordinate_id, $landmark_id, $category_id, $user_id);
+    
+    if ($stmt->execute()) {
+        sendResponse(201, true, ["message" => "POI added successfully", "poi_id" => $stmt->insert_id]);
+    } else {
+        sendResponse(500, false, "Failed to add POI");
+    }
+}
+
+
+function handleUpdatePOI($conn, $input) {
+    if (empty($input['poi_id'])) {
+        sendResponse(400, false, "POI ID is required for update.");
+        return;
+    }
+
+    $poi_id = intval($input['poi_id']);
+    $poi_name = $input['poi_name'] ?? null;
+    $poi_description = $input['poi_description'] ?? null;
+    $landmark_id = $input['landmark_id'] ?? null;
+    $category_id = $input['category_id'] ?? null;
+    $user_id = $input['user_id'] ?? null;
+
+    $coordinate_id = null;
+    if (!empty($input['latitude']) && !empty($input['longitude'])) {
+        $latitude = $input['latitude'];
+        $longitude = $input['longitude'];
+        $coordinate_id = insertCoordinate($conn, $latitude, $longitude);
+        if (!$coordinate_id) {
+            sendResponse(500, false, "Failed to create coordinate.");
+            return;
+        }
+    }
+
+    $query = "UPDATE " . DB_PREFIX . "_poi SET ";
+    $params = [];
+    $types = "";
+
+    if ($poi_name !== null) {
+        $query .= "poi_name = ?, ";
+        $params[] = $poi_name;
+        $types .= "s";
+    }
+    if ($poi_description !== null) {
+        $query .= "poi_description = ?, ";
+        $params[] = $poi_description;
+        $types .= "s";
+    }
+    if ($coordinate_id !== null) {
+        $query .= "coordinate_id = ?, ";
+        $params[] = $coordinate_id;
+        $types .= "i";
+    }
+    if ($landmark_id !== null) {
+        $query .= "landmark_id = ?, ";
+        $params[] = $landmark_id;
+        $types .= "i";
+    }
+    if ($category_id !== null) {
+        $query .= "category_id = ?, ";
+        $params[] = $category_id;
+        $types .= "i";
+    }
+    if ($user_id !== null) {
+        $query .= "user_id = ?, ";
+        $params[] = $user_id;
+        $types .= "i";
+    }
+
+    $query = rtrim($query, ", ") . " WHERE poi_id = ?";
+    $params[] = $poi_id;
+    $types .= "i";
+
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param($types, ...$params);
+
+    if ($stmt->execute()) {
+        sendResponse(200, true, "POI updated successfully");
+    } else {
+        sendResponse(500, false, "Failed to update POI");
+    }
+}
+
+
+/**
+ * Deletes a POI.
+ */
+function handleDeletePOI($conn) {
+    if (!isset($_GET['id'])) {
+        sendResponse(400, false, "ID is required");
+        return;
+    }
+
+    $poi_id = intval($_GET['id']);
+    $query = "DELETE FROM " . DB_PREFIX . "_poi WHERE poi_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $poi_id);
+
+    if ($stmt->execute()) {
+        sendResponse(200, true, "POI deleted successfully");
+    } else {
+        sendResponse(500, false, "Failed to delete POI");
+    }
+}
+
+/**
+ * Fetches coordinate_id from the category table.
+ */
+function insertCoordinate($conn, $latitude, $longitude) {
+    $query = "INSERT INTO " . DB_PREFIX . "_coordinate (coordinate_latitude, coordinate_longitude) VALUES (?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("dd", $latitude, $longitude);
+    
+    if ($stmt->execute()) {
+        return $stmt->insert_id; // Return the newly created coordinate ID
+    } else {
+        return false; // Handle failure
+    }
+}
+
+function fetchCoordinateId($conn, $category_id) {
+    $query = "SELECT coordinate_id FROM " . DB_PREFIX . "_category WHERE latidute = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $category_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    return $row ? $row['coordinate_id'] : null;
+}
+
+/**
+ * Sends a JSON response.
+ */
+function sendResponse($statusCode, $success, $message) {
+    http_response_code($statusCode);
+    echo json_encode(["success" => $success, "message" => $message]);
+}
 
 ?>
