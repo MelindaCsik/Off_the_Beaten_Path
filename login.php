@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
 
-        fetch("login.api.php", {
+        fetch("./api/login.api.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
