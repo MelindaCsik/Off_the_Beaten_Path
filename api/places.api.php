@@ -159,9 +159,7 @@ function handleUpdatePOI($conn, $input) {
 }
 
 
-/**
- * Deletes a POI.
- */
+
 function handleDeletePOI($conn) {
     if (!isset($_GET['id'])) {
         sendResponse(400, false, "ID is required");
@@ -180,9 +178,6 @@ function handleDeletePOI($conn) {
     }
 }
 
-/**
- * Fetches coordinate_id from the category table.
- */
 function insertCoordinate($conn, $latitude, $longitude) {
     $query = "INSERT INTO " . DB_PREFIX . "_coordinate (coordinate_latitude, coordinate_longitude) VALUES (?, ?)";
     $stmt = $conn->prepare($query);
@@ -206,9 +201,6 @@ function fetchCoordinateId($conn, $category_id) {
     return $row ? $row['coordinate_id'] : null;
 }
 
-/**
- * Sends a JSON response.
- */
 function sendResponse($statusCode, $success, $message) {
     http_response_code($statusCode);
     echo json_encode(["success" => $success, "message" => $message]);

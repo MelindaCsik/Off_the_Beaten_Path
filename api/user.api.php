@@ -13,6 +13,9 @@ if (!$conn) {
 }
 
 switch ($method) {
+    case 'GET' :
+        handleGetUser($conn);
+        break;
     case 'PUT':
         if (isset($input["password"])) {
             handleUpdatePassword($conn, $input);
@@ -29,6 +32,28 @@ switch ($method) {
         break;
 }
 
+function handleGetUser($conn) {
+    if (!isset($_GET['id'])) {
+        http_response_code(400);
+        echo json_encode(["error" => "User ID is required"]);
+        return;
+    }
+
+    $id = intval($_GET['id']);
+    $sql = "SELECT user_id, user_name, user_email FROM " . DB_PREFIX . "_users WHERE user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        echo json_encode(["success" => true, "message" => "User found", "user" => $user]);
+    } else {
+        http_response_code(404);
+        echo json_encode(["error" => "User not found"]);
+    }
+}
 
 function handleUpdateProfile($conn, $input) {
     if (!isset($input["id"])) {
