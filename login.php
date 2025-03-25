@@ -1,12 +1,11 @@
 <?php
 include "./common/head.inc.php";
-require "./api/login.api.php";
 ?>
 
 <div class="container d-flex justify-content-center align-items-center vh-100 regLogDiv">
     <div class="p-4 rounded shadow bg-white form-container">
         <h2 class="text-center mb-4">Bejelentkezés</h2>
-        <form>
+        <form id="loginForm">
             <div class="form-floating mb-3 input-width">
                 <input type="text" class="form-control" id="username" placeholder="Felhasználónév">
                 <label for="username">Felhasználónév</label>
@@ -26,3 +25,30 @@ require "./api/login.api.php";
 <?php
 include "./common/foot.inc.php";
 ?>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        fetch("login.api.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                window.location.href = "dashboard.php";
+            }
+        })
+        .catch(error => console.error("Hiba:", error));
+    });
+});
+</script>
