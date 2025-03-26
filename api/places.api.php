@@ -53,13 +53,13 @@ function handleGetPOI($conn) {
 
 
 function handleAddPOI($conn, $input) {
-    if (empty($input['poi_name']) || empty($input['poi_description']) || empty($input['latitude']) || empty($input['longitude']) || empty($input['landmark_id']) || empty($input['category_id']) || empty($input['user_id'])) {
+    if (empty($input['poi_name']) || empty($input['poi_discription']) || empty($input['latitude']) || empty($input['longitude']) || empty($input['landmark_id']) || empty($input['category_id']) || empty($input['user_id'])) {
         sendResponse(400, false, "Invalid input: All fields are required.");
         return;
     }
 
     $poi_name = $input['poi_name'];
-    $poi_description = $input['poi_description'];
+    $poi_discription = $input['poi_discription'];
     $latitude = $input['latitude'];
     $longitude = $input['longitude'];
     $landmark_id = $input['landmark_id'];
@@ -75,7 +75,7 @@ function handleAddPOI($conn, $input) {
     $query = "INSERT INTO " . DB_PREFIX . "_poi (poi_name, poi_discription, coordinate_id, landmark_id, category_id, user_id) 
               VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("ssiiii", $poi_name, $poi_description, $coordinate_id, $landmark_id, $category_id, $user_id);
+    $stmt->bind_param("ssiiii", $poi_name, $poi_discription, $coordinate_id, $landmark_id, $category_id, $user_id);
     
     if ($stmt->execute()) {
         sendResponse(201, true, ["message" => "POI added successfully", "poi_id" => $stmt->insert_id]);
@@ -93,7 +93,7 @@ function handleUpdatePOI($conn, $input) {
 
     $poi_id = intval($input['poi_id']);
     $poi_name = $input['poi_name'] ?? null;
-    $poi_description = $input['poi_description'] ?? null;
+    $poi_discription = $input['poi_discription'] ?? null;
     $landmark_id = $input['landmark_id'] ?? null;
     $category_id = $input['category_id'] ?? null;
     $user_id = $input['user_id'] ?? null;
@@ -118,9 +118,9 @@ function handleUpdatePOI($conn, $input) {
         $params[] = $poi_name;
         $types .= "s";
     }
-    if ($poi_description !== null) {
-        $query .= "poi_description = ?, ";
-        $params[] = $poi_description;
+    if ($poi_discription !== null) {
+        $query .= "poi_discription = ?, ";
+        $params[] = $poi_discription;
         $types .= "s";
     }
     if ($coordinate_id !== null) {

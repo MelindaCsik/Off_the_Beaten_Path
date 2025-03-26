@@ -13,13 +13,10 @@ if (!$conn) {
 
 switch ($method) {
     case 'GET':
-        handleGetCategory($conn);
+        handleGetLandmark($conn);
         break;
 }
-
-$conn->close();
-
-function handleGetCategory($conn) {
+function handleGetLandmark($conn) {
     if (isset($_GET['id'])) {
         $id = intval($_GET['id']);
         $query = "SELECT category_name FROM " . DB_PREFIX . "_category WHERE category_id = ?";
@@ -48,7 +45,22 @@ function handleGetCategory($conn) {
 
         $stmt->close(); // Close statement
     } else {
-        http_response_code(400);
-        echo json_encode(["error" => "Missing category ID"]);
+        $query = "SELECT * FROM " . DB_PREFIX . "_category";
+        $result = $conn->query($query);
+        
+        $data = []; // Initialize an array
+        
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row; // Push each row into the array
+            }
+        } else {
+            echo "Error: " . $conn->error;
+        }
+        
+        $conn->close();
+        
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
 }
