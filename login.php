@@ -14,7 +14,7 @@ include "./common/head.inc.php";
                 <input type="password" class="form-control" id="password" placeholder="Jelszó">
                 <label for="password">Jelszó</label>
             </div>
-            <button type="button" class="btn w-100">Bejelentkezés</button>
+            <button type="submit" class="btn w-100">Bejelentkezés</button>
             <div class="form-floating mb-3 input-width">
                 <p><a href="/2024/off-the-beaten-path/registration.php">Regisztrálj!<a></p>
             </div>
@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
             alert(data.message);
             if (data.success) {
                 window.location.href = "dashboard.php";
+                console.log("Sikeres Bejelentkezés!")
             }
         })
         .catch(error => console.error("Hiba:", error));
