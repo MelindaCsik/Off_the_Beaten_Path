@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             alert(data.message);
             if (data.success) {
-                window.location.href = "datasheet.php";
+                window.location.href = "./profile.php";
                 console.log("Sikeres Bejelentkezés!")
             }
         })
