@@ -63,6 +63,6 @@ function handleLogin($conn, $input) {
     unset($user['user_password']);
     $user['token'] = bin2hex(random_bytes(32)); // Generate secure session token
 
-    echo json_encode(["message" => "Login successful", "user" => $user]);
+    echo json_encode(["message" => "Sikeres bejelentkezés ", "user" => $user]);
 }
 ?>
