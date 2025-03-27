@@ -19,6 +19,9 @@ include "./common/head.inc.php";
                 <label for="password">Jelszó</label>
             </div>
             <button type="submit" class="btn w-100 gomb">Regisztráció</button>
+            <div class="form-floating mb-3 input-width">
+                <p>Már van fiókod? <a href="/2024/off-the-beaten-path/login.php">Jeletkezz be!<a></p>
+            </div>
         </form>
     </div>
 </div>
