@@ -64,3 +64,4 @@ function handleGetLandmark($conn) {
         echo json_encode($data);
     }
 }
+?>
