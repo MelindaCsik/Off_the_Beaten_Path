@@ -42,7 +42,19 @@ function handleGetPOI($conn) {
         $poi = $result->fetch_assoc();
 
         sendResponse(200, true, $poi ?: ["error" => "POI not found"]);
-    } else {
+    } 
+    elseif(isset($_GET["user_id"])){
+        $id = intval($_GET['user_id']);
+        $query = "SELECT * FROM " . DB_PREFIX . "_poi WHERE user_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $userPois = $result->fetch_all(MYSQLI_ASSOC);
+
+        sendResponse(200, true, $userPois);
+    }
+    else {
         $query = "SELECT * FROM " . DB_PREFIX . "_poi";
         $result = $conn->query($query);
         $pois = $result->fetch_all(MYSQLI_ASSOC);
