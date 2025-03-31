@@ -1,5 +1,7 @@
 <?php
 include "./common/head.inc.php";
+
+$pois = json_decode(file_get_contents('./api/places.api.php'), true);
 ?>
 
 <form class="row g-3 search">
@@ -16,52 +18,22 @@ include "./common/head.inc.php";
 </form>
 
 <div class="container">
-<div class="row posts">
-    <div class="card col-lg-2 post">
-        <img src="img/park.jpg" class="card-img-top " alt="">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content...</p>
-            <a href="/2024/off-the-beaten-path/datasheet.php" class="btn">Go somewhere</a>
-        </div>
+    <div class="row posts">
+        <?php if ($pois['success'] && !empty($pois['message'])): ?>
+            <?php foreach ($pois['message'] as $poi): ?>
+                <div class="card col-lg-2 post">
+                    <img src="img/park.jpg" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo htmlspecialchars($poi['poi_name']); ?></h5>
+                        <p class="card-text"><?php echo htmlspecialchars($poi['poi_discription']); ?></p>
+                        <a href="datasheet.php?id=<?php echo $poi['poi_id']; ?>" class="btn btn-primary">Megnézem</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Nincs elérhető POI.</p>
+        <?php endif; ?>
     </div>
-
-    <div class="card col-lg-2 post">
-        <img src="img/house.jpg" class="card-img-top " alt="">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content...</p>
-            <a href="#" class="btn">Go somewhere</a>
-        </div>
-    </div>
-
-    <div class="card col-lg-2 post">
-        <img src="img/statue.jpg" class="card-img-top " alt="">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content...</p>
-            <a href="#" class="btn">Go somewhere</a>
-        </div>
-    </div>
-
-    <div class="card col-lg-2 post">
-        <img src="img/park.jpg" class="card-img-top " alt="">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content...</p>
-            <a href="#" class="btn">Go somewhere</a>
-        </div>
-    </div>
-
-    <div class="card col-lg-3 post">
-        <img src="img/park.jpg" class="card-img-top " alt="">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content...</p>
-            <a href="#" class="btn">Go somewhere</a>
-        </div>
-    </div>
-</div>
 </div>
 
 <?php
