@@ -196,9 +196,9 @@ function insertCoordinate($conn, $latitude, $longitude) {
     $stmt->bind_param("dd", $latitude, $longitude);
     
     if ($stmt->execute()) {
-        return $stmt->insert_id; // Return the newly created coordinate ID
+        return $stmt->insert_id; 
     } else {
-        return false; // Handle failure
+        return false; 
     }
 }
 
