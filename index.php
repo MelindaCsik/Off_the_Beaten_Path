@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="card-body">
                             <h5 class="card-title">${poi.poi_name}</h5>
                             <p class="card-text">${poi.poi_discription}</p>
-                            <a href="datasheet.php?id=${poi.poi_id}" class="btn btn-primary">Megnézem</a>
+                            <a href="datasheet.php?id=${poi.poi_id}" class="btn">Megnézem</a>
                         </div>
                     </div>
                 `;
