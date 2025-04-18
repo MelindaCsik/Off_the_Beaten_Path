@@ -98,12 +98,12 @@ function handleAddPOI($conn, $input) {
 
 
 function handleUpdatePOI($conn, $input) {
-    if (empty($input['poi_id'])) {
+    if (empty($_GET['poi_id'])) {
         sendResponse(400, false, "POI ID is required for update.");
         return;
     }
 
-    $poi_id = intval($input['poi_id']);
+    $poi_id = intval($_GET['poi_id']);
     $poi_name = $input['poi_name'] ?? null;
     $poi_discription = $input['poi_discription'] ?? null;
     $landmark_id = $input['landmark_id'] ?? null;

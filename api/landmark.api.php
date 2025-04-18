@@ -19,7 +19,7 @@ switch ($method) {
 function handleGetLandmark($conn) {
     if (isset($_GET['id'])) {
         $id = intval($_GET['id']);
-        $query = "SELECT landmark_name FROM " . DB_PREFIX . "_landmark WHERE landmark_id = ?";
+        $query = "SELECT landmark_discription FROM " . DB_PREFIX . "_landmark WHERE landmark_id = ?";
         $stmt = $conn->prepare($query);
         if (!$stmt) {
             http_response_code(500);
@@ -32,7 +32,7 @@ function handleGetLandmark($conn) {
 
         if ($result) {
             if ($row = $result->fetch_assoc()) { 
-                echo json_encode(['landmark' => $row["landmark_name"]]);
+                echo json_encode(['landmark_discription' => $row["landmark_discription"], ]);
             } else {
                 http_response_code(404);
                 echo json_encode(["error" => "Category not found"]);
