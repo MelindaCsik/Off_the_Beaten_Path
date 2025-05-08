@@ -32,6 +32,7 @@ $conn->close();
 
 
 function handleGetPOI($conn) {
+    // Get POI by ID
     if (isset($_GET['id'])) {
         $id = intval($_GET['id']);
         $query = "SELECT * FROM " . DB_PREFIX . "_poi WHERE poi_id = ?";
@@ -42,26 +43,64 @@ function handleGetPOI($conn) {
         $poi = $result->fetch_assoc();
 
         sendResponse(200, true, $poi ?: ["error" => "POI not found"]);
-    } 
-    elseif(isset($_GET["user_id"])){
-        $id = intval($_GET['user_id']);
+        return;
+    }
+
+    // Get POIs by user ID
+    if (isset($_GET["user_id"])) {
+        $user_id = intval($_GET['user_id']);
         $query = "SELECT * FROM " . DB_PREFIX . "_poi WHERE user_id = ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $userPois = $result->fetch_all(MYSQLI_ASSOC);
 
         sendResponse(200, true, $userPois);
+        return;
     }
-    else {
+
+    // Get POIs by landmark/category or both
+    if (isset($_GET['landmark_id']) || isset($_GET['category_id'])) {
         $query = "SELECT * FROM " . DB_PREFIX . "_poi";
-        $result = $conn->query($query);
+        $params = [];
+        $types = [];
+        $where = [];
+
+        if (isset($_GET['category_id'])) {
+            $where[] = "category_id = ?";
+            $params[] = intval($_GET['category_id']);
+            $types[] = 'i';
+        }
+
+        if (isset($_GET['landmark_id'])) {
+            $where[] = "landmark_id = ?";
+            $params[] = intval($_GET['landmark_id']);
+            $types[] = 'i';
+        }
+
+        if (!empty($where)) {
+            $query .= " WHERE " . implode(" AND ", $where);
+        }
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param(implode('', $types), ...$params);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $pois = $result->fetch_all(MYSQLI_ASSOC);
 
         sendResponse(200, true, $pois);
+        return;
     }
+
+    // Default: get all POIs
+    $query = "SELECT * FROM " . DB_PREFIX . "_poi";
+    $result = $conn->query($query);
+    $pois = $result->fetch_all(MYSQLI_ASSOC);
+
+    sendResponse(200, true, $pois);
 }
+
 
 
 function handleAddPOI($conn, $input) {
