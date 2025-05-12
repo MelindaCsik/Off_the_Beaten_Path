@@ -19,7 +19,7 @@
 
 		  <nav class="navbar navbar-expand-lg">
 			<div class="container">
-				<a class="navbar-brand" href="#">
+				<a class="navbar-brand" href="/2024/off-the-beaten-path/index.php">
 					<img src="./img/Logo.png" alt="Off the Beaten Path" class="rounded-circle"  width="50" height="50">
 				</a>
 	
