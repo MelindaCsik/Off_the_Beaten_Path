@@ -29,26 +29,73 @@ include "./common/head.inc.php";
         <div class="col-auto">
             <input type="password" id="passwordOutput" class="form-control" value="jelszó" disabled readonly>
         </div>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn">Módosítás</button>
-        </div>
     </div>
     </div>
 
     <h2>Saját bejegyzések</h2>
     <div class="line"></div>
-    <div class="row posts">
-        <div class="card col-lg-3 post">
-            <img src="img/park.jpg" class="card-img-top" alt="">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content...</p>
-                <a href="#" class="btn">Go somewhere</a>
-            </div>
+    <div class="container">
+        <div class="row posts" id="poi-container">
+            <p>Betöltés...</p>
         </div>
     </div>
+
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    fetch(`./api/user.api.php?id=<?php echo $_SESSION['user_id']; ?>`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update form fields with user data
+                document.getElementById('usernameOutput').value = data.user.user_name;
+                document.getElementById('emailOutput').value = data.user.user_email;
+            } else {
+                console.error("Error fetching user data:", data.error);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchPOIs(); // Fetch data on page load
+
+    function fetchPOIs() {
+        fetch("./api/places.api.php?id=<?php echo $_SESSION['user_id']; ?>`")
+        .then(response => response.json()) // Convert response to JSON
+        .then(data => {
+            console.log("Fetched Data:", data);
+            displayPOIs(data);
+        })
+        .catch(error => console.error("Error fetching POIs:", error));
+    }
+
+    function displayPOIs(pois) {
+        const container = document.getElementById("poi-container");
+        container.innerHTML = ""; // Clear previous content
+
+        if (pois.success && pois.message.length > 0) {
+            pois.message.forEach(poi => {
+                let card = `
+                    <div class="card col-lg-2 post">
+                        <img src="img/park.jpg" class="card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">${poi.poi_name}</h5>
+                            <p class="card-text">${poi.poi_discription}</p>
+                            <a href="datasheet.php?id=${poi.poi_id}" class="btn">Megnézem</a>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        } else {
+            container.innerHTML = "<p>Nincs elérhető POI.</p>";
+        }
+    }
+});
+
+</script>
 <?php
 include "./common/foot.inc.php";
 ?>
