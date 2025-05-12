@@ -12,20 +12,14 @@ include "./common/head.inc.php";
                     <label for="poi_name">Hely/Épület/Szobor neve</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" placeholder="Leírás" id="poi_description" required></textarea>
-                    <label for="poi_description">Leírás</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <select class="form-control" id="landmark_id" required>
-                        <option value="">Válassz egy műemléket</option>
-                    </select>
-                    <label for="landmark_id">Műemlék</label>
-                </div>
-                <div class="form-floating mb-3">
                     <select class="form-control" id="category_id" required>
                         <option value="">Válassz kategóriát</option>
                     </select>
                     <label for="category_id">Kategória</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="Leírás" id="poi_description" required></textarea>
+                    <label for="poi_description">Leírás</label>
                 </div>
                 <input type="hidden" id="latitude">
                 <input type="hidden" id="longitude">
