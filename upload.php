@@ -12,12 +12,18 @@ include "./common/head.inc.php";
                     <label for="poi_name">Hely/Épület/Szobor neve</label>
                 </div>
                 <div class="form-floating mb-3">
+                    <select class="form-control" id="landmark_id" required>
+                        <option selected>Válassz egy körzetett</option>
+                    </select>
+                    <label for="landmark_id">Körzet</label>
+                </div>
+                <div class="form-floating mb-3">
                     <select class="form-control" id="category_id" required>
-                        <option value="">Válassz kategóriát</option>
+                        <option selected>Válassz kategóriát</option>
                     </select>
                     <label for="category_id">Kategória</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating">
                     <textarea class="form-control" placeholder="Leírás" id="poi_description" required></textarea>
                     <label for="poi_description">Leírás</label>
                 </div>
@@ -27,16 +33,11 @@ include "./common/head.inc.php";
             </form>
             <form id="uploadForm" enctype="multipart/form-data">
                 <div class="mb-3 mt-3">
-                    <label for="imgUpload" class="form-label">Válasszd ki a feltölteni kivánt képeket:</label>
+                    <label for="imgUpload" class="form-label">Válasszd ki a feltölteni kivánt képet:</label>
                     <input type="file" class="form-control" id="imgUpload" multiple>
                 </div>
                 <button type="button" class="btn" id="submitBtn">Feltöltés</button>
             </form>
-
-            <div class="mt-3">
-                <h5>Kiválasztott képek:</h5>
-                <ul id="fileList" class="list-group"></ul>
-            </div>
         </div>
     </div>
     <div class="col-lg-6">
