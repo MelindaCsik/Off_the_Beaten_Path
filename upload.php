@@ -13,31 +13,37 @@ include "./common/head.inc.php";
                 </div>
                 <div class="form-floating mb-3">
                     <select class="form-control" id="landmark_id" required>
-                        <option selected>Válassz egy körzetett</option>
+                        <option selected disabled>Válassz régiót</option>
                     </select>
-                    <label for="landmark_id">Körzet</label>
+                    <label for="landmark_id">Régió</label>
                 </div>
                 <div class="form-floating mb-3">
                     <select class="form-control" id="category_id" required>
-                        <option selected>Válassz kategóriát</option>
+                        <option selected disabled>Válassz kategóriát</option>
                     </select>
                     <label for="category_id">Kategória</label>
                 </div>
-                <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leírás" id="poi_description" required></textarea>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="Leírás" id="poi_description" rows="4" require></textarea>
                     <label for="poi_description">Leírás</label>
                 </div>
                 <input type="hidden" id="latitude">
                 <input type="hidden" id="longitude">
                 <input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id'] ?? ''; ?>">
+                <button type="button" class="btn" id="submitBtn">Feltöltés</button>
             </form>
-            <form id="uploadForm" enctype="multipart/form-data">
+            <!--<form id="uploadForm" enctype="multipart/form-data">
                 <div class="mb-3 mt-3">
                     <label for="imgUpload" class="form-label">Válasszd ki a feltölteni kivánt képet:</label>
                     <input type="file" class="form-control" id="imgUpload" multiple>
                 </div>
-                <button type="button" class="btn" id="submitBtn">Feltöltés</button>
-            </form>
+                <div class="mt-3">
+                    <h5>Kiválasztott képek:</h5>
+                    <ul id="fileList" class="list-group"></ul>
+                </div> 
+
+            </form> -->
+        
         </div>
     </div>
     <div class="col-lg-6">
@@ -82,7 +88,7 @@ include "./common/head.inc.php";
     }
 
     function loadFormData() {
-        fetch('./api/categories.api.php')
+        fetch('./api/category.api.php')
             .then(response => response.json())
             .then(data => {
                 const select = document.getElementById('category_id');
@@ -94,7 +100,7 @@ include "./common/head.inc.php";
                 });
             });
         
-        fetch('api/landmarks.api.php')
+        fetch('./api/landmark.api.php')
             .then(response => response.json())
             .then(data => {
                 const select = document.getElementById('landmark_id');
@@ -125,7 +131,7 @@ include "./common/head.inc.php";
             user_id: document.getElementById('user_id').value
         };
 
-        fetch('api/places.api.php', {
+        fetch('./api/places.api.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -138,10 +144,10 @@ include "./common/head.inc.php";
                 document.getElementById('statusMessage').innerHTML = 
                     '<div class="alert alert-success">Bejegyzés sikeresen feltöltve!</div>';
                 
-                const imageFiles = document.getElementById('imgUpload').files;
-                if (imageFiles.length > 0) {
-                    uploadImages(imageFiles, data.poi_id);
-                }
+                //const imageFiles = document.getElementById('imgUpload').files;
+                //if (imageFiles.length > 0) {
+                //    uploadImages(imageFiles, data.poi_id);
+                //}
             } else {
                 document.getElementById('statusMessage').innerHTML = 
                     '<div class="alert alert-danger">Hiba történt: ' + data.message + '</div>';
@@ -153,39 +159,39 @@ include "./common/head.inc.php";
                 '<div class="alert alert-danger">Hiba történt a feltöltés során.</div>';
         });
     });
+    
+    //function uploadImages(files, poiId) {
+    //    const formData = new FormData();
+    //    for (let i = 0; i < files.length; i++) {
+    //        formData.append('images[]', files[i]);
+    //    }
+    //    formData.append('poi_id', poiId);
 
-    function uploadImages(files, poiId) {
-        const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-            formData.append('images[]', files[i]);
-        }
-        formData.append('poi_id', poiId);
-
-        fetch('api/upload.api.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Images uploaded successfully');
-            }
-        });
-    }
+    //    fetch('api/upload.api.php', {
+    //        method: 'POST',
+    //        body: formData
+    //    })
+    //    .then(response => response.json())
+    //    .then(data => {
+    //        if (data.success) {
+    //            console.log('Images uploaded successfully');
+    //        }
+    //    });
+    //}
 
     document.addEventListener('DOMContentLoaded', loadFormData);
 
-    document.getElementById('imgUpload').addEventListener('change', function(e) {
-        const fileList = document.getElementById('fileList');
-        fileList.innerHTML = '';
-        
-        Array.from(e.target.files).forEach(file => {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.textContent = file.name;
-            fileList.appendChild(li);
-        });
-    });
+    //document.getElementById('imgUpload').addEventListener('change', function(e) {
+    //    const fileList = document.getElementById('fileList');
+    //    fileList.innerHTML = '';
+    //    
+    //    Array.from(e.target.files).forEach(file => {
+    //        const li = document.createElement('li');
+    //        li.className = 'list-group-item';
+    //        li.textContent = file.name;
+    //        fileList.appendChild(li);
+    //    });
+    //});
 </script>
 
 <?php
