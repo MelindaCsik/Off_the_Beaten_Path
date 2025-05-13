@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Update form fields with user data
                 document.getElementById('usernameOutput').value = data.user.user_name;
                 document.getElementById('emailOutput').value = data.user.user_email;
             } else {
@@ -59,11 +58,11 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetchPOIs(); // Fetch data on page load
+    fetchPOIs();
 
     function fetchPOIs() {
         fetch("./api/places.api.php?id=<?php echo $_SESSION['user_id']; ?>`")
-        .then(response => response.json()) // Convert response to JSON
+        .then(response => response.json())
         .then(data => {
             console.log("Fetched Data:", data);
             displayPOIs(data);
@@ -73,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function displayPOIs(pois) {
         const container = document.getElementById("poi-container");
-        container.innerHTML = ""; // Clear previous content
+        container.innerHTML = "";
 
         if (pois.success && pois.message.length > 0) {
             pois.message.forEach(poi => {
