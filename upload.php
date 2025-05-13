@@ -88,30 +88,45 @@ include "./common/head.inc.php";
     }
 
     function loadFormData() {
-        fetch('./api/category.api.php')
-            .then(response => response.json())
-            .then(data => {
-                const select = document.getElementById('category_id');
+    // Betöltjük a kategóriákat
+    fetch('./api/category.api.php')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('category_id');
+            if (Array.isArray(data) && data.length > 0) {
                 data.forEach(category => {
                     const option = document.createElement('option');
-                    option.value = category.category_id;
-                    option.textContent = category.category_name;
+                    option.value = category.category_id;  // Kategória Azonosító
+                    option.textContent = category.category_name;  // Kategória név
                     select.appendChild(option);
                 });
-            });
+            } else {
+                console.error('Nincs adat a kategóriák között!');
+            }
+        })
+        .catch(error => {
+            console.error('Hiba történt a kategóriák betöltése közben:', error);
+        });
         
         fetch('./api/landmark.api.php')
-            .then(response => response.json())
-            .then(data => {
-                const select = document.getElementById('landmark_id');
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('landmark_id');
+            if (Array.isArray(data) && data.length > 0) {
                 data.forEach(landmark => {
                     const option = document.createElement('option');
-                    option.value = landmark.landmark_id;
-                    option.textContent = landmark.landmark_name;
+                    option.value = landmark.landmark_id;  // Régió Azonosító
+                    option.textContent = landmark.landmark_discription;  // Régió név
                     select.appendChild(option);
                 });
-            });
-    }
+            } else {
+                console.error('Nincs adat a régiók között!');
+            }
+        })
+        .catch(error => {
+            console.error('Hiba történt a régiók betöltésekor:', error);
+        });
+}
 
     document.getElementById('submitBtn').addEventListener('click', function(e) {
         e.preventDefault();
