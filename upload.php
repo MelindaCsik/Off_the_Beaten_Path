@@ -49,7 +49,6 @@ include "./common/head.inc.php";
     <div class="col-lg-6">
         <div class="p-5">
             <div class="justify-content-end"> 
-                <button class="btn uploadbtn" onclick="getCoordinates()">Koordináták mentése</button>
                 <div id="map" class="uploadmap"></div>
                 <div id="statusMessage" class="mt-3"></div>
             </div> 
