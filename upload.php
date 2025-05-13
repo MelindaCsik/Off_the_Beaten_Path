@@ -88,7 +88,6 @@ include "./common/head.inc.php";
     }
 
     function loadFormData() {
-    // Betöltjük a kategóriákat
     fetch('./api/category.api.php')
         .then(response => response.json())
         .then(data => {
@@ -96,8 +95,8 @@ include "./common/head.inc.php";
             if (Array.isArray(data) && data.length > 0) {
                 data.forEach(category => {
                     const option = document.createElement('option');
-                    option.value = category.category_id;  // Kategória Azonosító
-                    option.textContent = category.category_name;  // Kategória név
+                    option.value = category.category_id;
+                    option.textContent = category.category_name;
                     select.appendChild(option);
                 });
             } else {
@@ -115,8 +114,8 @@ include "./common/head.inc.php";
             if (Array.isArray(data) && data.length > 0) {
                 data.forEach(landmark => {
                     const option = document.createElement('option');
-                    option.value = landmark.landmark_id;  // Régió Azonosító
-                    option.textContent = landmark.landmark_discription;  // Régió név
+                    option.value = landmark.landmark_id;
+                    option.textContent = landmark.landmark_discription; 
                     select.appendChild(option);
                 });
             } else {
