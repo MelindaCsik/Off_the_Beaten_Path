@@ -32,7 +32,7 @@
 							<a class="nav-link" href="/2024/off-the-beaten-path/upload.php">Új poszt</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/2024/off-the-beaten-path/registration.php">Profil</a>
+							<a class="nav-link" href="/2024/off-the-beaten-path/login.php">Profil</a>
 						</li>
 					</ul>
 				</div>
